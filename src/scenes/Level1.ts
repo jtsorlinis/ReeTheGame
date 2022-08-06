@@ -29,6 +29,7 @@ export default class Level1 extends Phaser.Scene {
     this.load.image("star", "./assets/star.png");
     this.load.image("envelope", "./assets/envelope.png");
     this.load.image("shoes", "./assets/shoes.png");
+    this.load.image("ground", "./assets/ground.png");
 
     this.load.audio("jump", "./assets/jump.mp3");
     this.load.audio("sylveon", "./assets/sylveon.mp3");
@@ -64,17 +65,17 @@ export default class Level1 extends Phaser.Scene {
       .sprite(this.startX, 400, "player")
       .setScale(0.5);
     this.player.setGravity(0, 1000);
-    this.player.setBounce(0.2);
+    this.player.setBounce(0.1);
     this.player.setSize(50, 115);
 
     // Create platforms
     const platforms = this.physics.add.staticGroup();
-    platforms.create(100, 550).setScale(7, 1).refreshBody();
-    platforms.create(400, 550).setScale(7, 1).refreshBody();
-    platforms.create(650, 500).setScale(3, 1).refreshBody();
-    platforms.create(950, 500).setScale(3, 1).refreshBody();
-    platforms.create(2800, 550).setScale(100, 1).refreshBody();
-    platforms.create(4600, 500).setScale(3, 1).refreshBody();
+    platforms.create(100, 550, "ground").setScale(7, 1).refreshBody();
+    platforms.create(400, 550, "ground").setScale(7, 1).refreshBody();
+    platforms.create(650, 500, "ground").setScale(3, 1).refreshBody();
+    platforms.create(950, 500, "ground").setScale(3, 1).refreshBody();
+    platforms.create(2800, 550, "ground").setScale(100, 1).refreshBody();
+    platforms.create(4600, 500, "ground").setScale(3, 1).refreshBody();
     this.physics.add.collider(this.player, platforms);
 
     // Show text for star
@@ -197,7 +198,7 @@ export default class Level1 extends Phaser.Scene {
 
     // Platform trap 1
     const platTrap1 = this.physics.add
-      .sprite(4800, 400, "")
+      .sprite(4800, 400, "ground")
       .setScale(3, 1)
       .refreshBody();
     platTrap1.body.setImmovable(true);
