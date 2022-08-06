@@ -5,6 +5,6 @@ import MenuScene from "./scenes/Menu";
 
 new Phaser.Game(
   Object.assign(config, {
-    scene: [Level1],
+    scene: [MenuScene, Level1],
   })
 );
