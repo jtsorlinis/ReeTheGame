@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export default class Level1 extends Phaser.Scene {
-  startX = 50;
+  startX = 1400;
   cursors!: {
     left: any;
     right: any;
@@ -19,6 +19,7 @@ export default class Level1 extends Phaser.Scene {
   finished = false;
   deathSound!: Phaser.Sound.BaseSound;
   victorySound!: Phaser.Sound.BaseSound;
+  thudSound!: Phaser.Sound.BaseSound;
 
   constructor() {
     super("Level1");
@@ -38,6 +39,7 @@ export default class Level1 extends Phaser.Scene {
     this.load.audio("skid", "./assets/skid.wav");
     this.load.audio("powerup", "./assets/powerup.mp3");
     this.load.audio("whoosh", "./assets/whoosh.mp3");
+    this.load.audio("thud", "./assets/thud.wav");
   }
 
   create() {
@@ -45,6 +47,8 @@ export default class Level1 extends Phaser.Scene {
     this.finished = false;
     this.hasShoes = false;
     this.sound.stopAll();
+
+    this.thudSound = this.sound.add("thud");
 
     this.deathSound = this.sound.add("sylveon");
     this.deathSound.on("play", () => {
@@ -164,7 +168,11 @@ export default class Level1 extends Phaser.Scene {
     // Invisible wall
     const invisWall = this.add.zone(1800, 400, 50, 500);
     this.physics.add.existing(invisWall, true);
-    this.physics.add.collider(this.player, invisWall);
+    this.physics.add.collider(this.player, invisWall, () => {
+      if (!this.thudSound.isPlaying) {
+        this.thudSound.play();
+      }
+    });
 
     // Shoes
     const shoes = this.physics.add.sprite(1750, 400, "shoes").setScale(0.15);
