@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export default class Level1 extends Phaser.Scene {
-  startX = 1400;
+  startX = 50;
   cursors!: {
     left: any;
     right: any;
