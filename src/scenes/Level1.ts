@@ -292,7 +292,7 @@ export default class Level1 extends Phaser.Scene {
 
     // Jumping
     if (
-      this.cursors.up.isDown &&
+      this.cursors.space?.isDown &&
       this.player.body.touching.down &&
       !this.finished &&
       !this.hasStar
