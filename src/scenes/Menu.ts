@@ -32,7 +32,7 @@ export default class Menu extends Phaser.Scene {
       startButton.setFillStyle(0xf4a261);
     });
     startButton.on("pointerup", () => {
-      this.scene.start("Level2");
+      this.scene.start("Level1");
     });
   }
 }
