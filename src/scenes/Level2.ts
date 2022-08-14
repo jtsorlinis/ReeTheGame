@@ -59,6 +59,8 @@ export default class Level2 extends Phaser.Scene {
     this.load.audio("zapcry", "./assets/Level2/zapcry.ogg");
     this.load.audio("victorySound", "./assets/victory.mp3");
     this.load.audio("pika", "./assets/Level2/pika.mp3");
+    this.load.audio("music", "./assets/Level2/finalstretch.mp3");
+    this.load.audio("absol", "./assets/Level2/absol.mp3");
   }
 
   create() {
@@ -70,6 +72,7 @@ export default class Level2 extends Phaser.Scene {
     this.zapdosHP = 9900;
     this.zapState = 0;
     this.spawning = false;
+    this.sound.stopAll();
 
     // sounds
     this.deathSound = this.sound.add("pika");
@@ -255,6 +258,7 @@ export default class Level2 extends Phaser.Scene {
         this.zapState = 1;
         // Zap collisions
       } else if (this.zapdos.getChildren()[0].y > 140 && this.zapState == 1) {
+        this.sound.play("music");
         this.zapdos.setVelocity(0, 0);
         this.zapHealthFill = this.add
           .rectangle(200, 50, 300, 10, 0xff0000)
@@ -300,6 +304,7 @@ export default class Level2 extends Phaser.Scene {
             this.enemyBullets.getChildren().forEach((obj) => {
               obj.destroy();
             });
+            this.sound.stopAll();
             this.sound.play("zapcry");
             this.finished = true;
             this.shootDelay = 9999999;
@@ -307,6 +312,7 @@ export default class Level2 extends Phaser.Scene {
             this.zapdos.rotate(Math.PI);
             this.victorySound.play();
             this.cameras.main.fadeOut(3000);
+            this.player.setActive(false);
           }
         });
         this.zapState = 2;
@@ -362,6 +368,7 @@ export default class Level2 extends Phaser.Scene {
           : 0;
 
       this.enemies.create(spawnX, spawnY, "absol").setScale(0.4);
+      this.sound.play("absol");
     }
 
     // Move enemies towards player
