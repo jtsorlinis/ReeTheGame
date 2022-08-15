@@ -30,7 +30,7 @@ export default class Level2 extends Phaser.Scene {
   phase2 = false;
   zapState = 0;
   zapdos!: Phaser.Physics.Arcade.Group;
-  zapdosHP = 9900;
+  zapdosHP = 6600;
   victorySound!: Phaser.Sound.BaseSound;
   finished = false;
   deathSound!: Phaser.Sound.BaseSound;
@@ -69,7 +69,7 @@ export default class Level2 extends Phaser.Scene {
     this.enemySpawnTimer = 500;
     this.power = 0;
     this.phase2 = false;
-    this.zapdosHP = 9900;
+    this.zapdosHP = 6600;
     this.zapState = 0;
     this.spawning = false;
     this.sound.stopAll();
@@ -279,7 +279,7 @@ export default class Level2 extends Phaser.Scene {
           this.zapHealthFill.width = this.zapdosHP / 33;
 
           // Ambush at 20% hp
-          if (this.zapdosHP < 2000) {
+          if (this.zapdosHP < 1800) {
             if (this.zapState == 2) {
               this.sound.play("zapcry");
               this.zapdos.setVelocityY(300);
