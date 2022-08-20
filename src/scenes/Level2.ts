@@ -316,6 +316,7 @@ export default class Level2 extends Phaser.Scene {
             this.zapHealthFill.destroy();
             this.zapdos.rotate(Math.PI);
             this.victorySound.play();
+            this.sound.stopByKey("music");
             this.cameras.main.fadeOut(3000);
             this.player.setActive(false);
           }

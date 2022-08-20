@@ -273,6 +273,7 @@ export default class Level1 extends Phaser.Scene {
   update() {
     if (!this.finished && this.player.x > 14000) {
       this.finished = true;
+      this.sound.stopByKey("music");
       this.victorySound.play();
       this.cameras.main.fadeOut(1000);
     }
