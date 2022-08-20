@@ -20,6 +20,7 @@ export default class Level1 extends Phaser.Scene {
   deathSound!: Phaser.Sound.BaseSound;
   victorySound!: Phaser.Sound.BaseSound;
   thudSound!: Phaser.Sound.BaseSound;
+  music!: Phaser.Sound.BaseSound;
 
   constructor() {
     super("Level1");
@@ -40,6 +41,7 @@ export default class Level1 extends Phaser.Scene {
     this.load.audio("powerup", "./assets/Level1/powerup.mp3");
     this.load.audio("whoosh", "./assets/Level1/whoosh.mp3");
     this.load.audio("thud", "./assets/Level1/thud.wav");
+    this.load.audio("music", "./assets/Level1/mario.mp3");
   }
 
   create() {
@@ -47,6 +49,12 @@ export default class Level1 extends Phaser.Scene {
     this.finished = false;
     this.hasShoes = false;
     this.sound.stopAll();
+
+    this.music = this.sound.add("music", {
+      loop: true,
+      volume: 0.8,
+    });
+    this.music.play();
 
     this.thudSound = this.sound.add("thud");
 
@@ -199,6 +207,7 @@ export default class Level1 extends Phaser.Scene {
           this.player.setAccelerationX(0);
           brakeZone.destroy();
           this.sound.stopByKey("starMusic");
+          this.music.play();
           this.hasStar = false;
         }
       }
@@ -234,10 +243,12 @@ export default class Level1 extends Phaser.Scene {
       this.hasStar = true;
       if (!this.hasShoes) {
         starText.setText("SLOW DOWN MIU MIU");
-        this.sound.play("starMusic", { rate: 1.2 });
+        this.sound.play("starMusic", { rate: 1.2, volume: 0.8 });
+        this.music.pause();
         this.player.setVelocityX(1000);
       } else {
-        this.sound.play("starMusic", { rate: 1.0 });
+        this.sound.play("starMusic", { rate: 1.0, volume: 0.8 });
+        this.music.pause();
         this.player.setVelocityX(750);
       }
       star.destroy();
@@ -298,7 +309,9 @@ export default class Level1 extends Phaser.Scene {
       !this.finished &&
       !this.hasStar
     ) {
-      this.sound.play("jump");
+      this.sound.play("jump", {
+        volume: 0.3,
+      });
       this.player.setVelocityY(-500);
     }
   }

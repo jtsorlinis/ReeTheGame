@@ -8,6 +8,6 @@ import VictoryScene from "./scenes/Victory";
 
 new Phaser.Game(
   Object.assign(config, {
-    scene: [VictoryScene],
+    scene: [MenuScene, Level1, Level2, Level3, VictoryScene],
   })
 );

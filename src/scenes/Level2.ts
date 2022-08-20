@@ -59,7 +59,8 @@ export default class Level2 extends Phaser.Scene {
     this.load.audio("zapcry", "./assets/Level2/zapcry.ogg");
     this.load.audio("victorySound", "./assets/victory.mp3");
     this.load.audio("pika", "./assets/Level2/pika.mp3");
-    this.load.audio("music", "./assets/Level2/finalstretch.mp3");
+    this.load.audio("bossmusic", "./assets/Level2/finalstretch.mp3");
+    this.load.audio("music", "./assets/Level2/stadium.mp3");
     this.load.audio("absol", "./assets/Level2/absol.mp3");
   }
 
@@ -261,7 +262,8 @@ export default class Level2 extends Phaser.Scene {
       ) {
         this.powerBarFill.width = 500;
         this.shootDelay = 5;
-        this.sound.play("music");
+        this.sound.stopByKey("music");
+        this.sound.play("bossmusic");
         this.zapdos.setVelocity(0, 0);
         this.zapHealthFill = this.add
           .rectangle(200, 50, 300, 10, 0xff0000)
@@ -401,6 +403,9 @@ export default class Level2 extends Phaser.Scene {
     if (!this.spawning && !this.phase2 && (moveX || moveY)) {
       this.spawning = true;
       this.tutorialImage.destroy();
+      this.sound.play("music", {
+        volume: 0.5,
+      });
     }
 
     if (moveX) {
