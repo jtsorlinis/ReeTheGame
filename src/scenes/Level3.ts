@@ -12,13 +12,13 @@ export default class Level3 extends Phaser.Scene {
   };
   nyxyHungerFill!: Phaser.GameObjects.Rectangle;
   isDead!: boolean;
-  moveSpeed = 400;
+  moveSpeed = 500;
   spawnTimer = 3000;
   maxEnemyChance = 0.4;
   spawnSpeed!: number;
   foodSpeed!: number;
-  maxFoodSpeed = 500;
-  minSpawnSpeed = 500;
+  maxFoodSpeed = 750;
+  minSpawnSpeed = 400;
   nyxHunger!: number;
   chanceOfEnemy!: number;
   chanceOfTreat!: number;
