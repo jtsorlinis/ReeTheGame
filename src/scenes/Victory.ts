@@ -8,7 +8,7 @@ export default class VictoryScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("music", "./assets/Credits/finished.mp3");
+    this.load.audio("music_credits", "./assets/Credits/finished.mp3");
     this.load.spritesheet("nyxySit", "./assets/Level3/NyxySit.png", {
       frameWidth: 42,
       frameHeight: 60,
@@ -22,7 +22,7 @@ export default class VictoryScene extends Phaser.Scene {
 
   create() {
     this.cameras.main.setBackgroundColor(0x000000);
-    this.sound.play("music");
+    this.sound.play("music_credits");
 
     // Load animations
     this.anims.create({
