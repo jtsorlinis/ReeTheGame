@@ -25,7 +25,7 @@ export default class Level2 extends Phaser.Scene {
   maxPower = 320;
   powerBarFill!: Phaser.GameObjects.Rectangle;
   zapHealthFill!: Phaser.GameObjects.Rectangle;
-  remaining = 150;
+  remaining = 120;
   remainingText!: Phaser.GameObjects.Text;
   phase2 = false;
   zapState = 0;
@@ -64,7 +64,7 @@ export default class Level2 extends Phaser.Scene {
   }
 
   create() {
-    this.remaining = 150;
+    this.remaining = 120;
     this.enemySpawnSpeed = 500;
     this.enemySpawnTimer = 500;
     this.power = 0;
@@ -86,7 +86,7 @@ export default class Level2 extends Phaser.Scene {
     // ending
     this.victorySound = this.sound.add("victorySound");
     this.victorySound.on("complete", () => {
-      this.scene.start("MenuScene");
+      this.scene.start("Level3");
     });
 
     // WASD image
@@ -191,8 +191,8 @@ export default class Level2 extends Phaser.Scene {
 
     // Setup player
     this.player = this.physics.add.sprite(100, 100, "pikachu");
-    this.player.body.setSize(30, 40, true);
-    this.player.body.setOffset(17, 22);
+    this.player.body.setSize(20, 25, true);
+    this.player.body.setOffset(21, 32);
     this.player.setDepth(1);
     this.player.body.setCollideWorldBounds(true);
 
@@ -234,12 +234,10 @@ export default class Level2 extends Phaser.Scene {
     });
   }
 
-  update() {
+  update(time: number, delta: number) {
     // Zapdos phase
     if (this.phase2) {
       if (this.zapState == 0) {
-        this.powerBarFill.width = 500;
-        this.shootDelay = 5;
         this.sound.play("zapcry");
         // Zapdos
         this.zapdos = this.physics.add.group();
@@ -251,13 +249,18 @@ export default class Level2 extends Phaser.Scene {
         const zapCollider = this.physics.add.existing(
           this.add.rectangle(0, 0, 100, 250)
         );
-        zapCollider.body.setOffset(15, 20);
+        (zapCollider.body as any).setOffset(15, 20);
         this.zapdos.add(zapCollider);
         this.zapdos.setXY(340, -150);
         this.zapdos.setVelocityY(800);
         this.zapState = 1;
         // Zap collisions
-      } else if (this.zapdos.getChildren()[0].y > 140 && this.zapState == 1) {
+      } else if (
+        (this.zapdos.getChildren()[0] as any).y > 140 &&
+        this.zapState == 1
+      ) {
+        this.powerBarFill.width = 500;
+        this.shootDelay = 5;
         this.sound.play("music");
         this.zapdos.setVelocity(0, 0);
         this.zapHealthFill = this.add
@@ -276,7 +279,7 @@ export default class Level2 extends Phaser.Scene {
         this.physics.add.overlap(this.zapdos, this.bullets, (obj, other) => {
           other.destroy();
           this.zapdosHP -= 10;
-          this.zapHealthFill.width = this.zapdosHP / 33;
+          this.zapHealthFill.width = this.zapdosHP / 22;
 
           // Ambush at 20% hp
           if (this.zapdosHP < 1800) {
@@ -286,13 +289,13 @@ export default class Level2 extends Phaser.Scene {
               this.zapState = 3;
             } else if (
               this.zapState == 3 &&
-              this.zapdos.getChildren()[0].y > 400
+              (this.zapdos.getChildren()[0] as any).y > 400
             ) {
               this.zapdos.setVelocityY(-150);
               this.zapState = 4;
             } else if (
               this.zapState == 4 &&
-              this.zapdos.getChildren()[0].y < 140
+              (this.zapdos.getChildren()[0] as any).y < 140
             ) {
               this.zapdos.setVelocityY(0);
               this.zapState = 5;
@@ -319,7 +322,7 @@ export default class Level2 extends Phaser.Scene {
       }
 
       if (this.zapState == 2 || this.zapState == 5) {
-        this.zapShootTimer--;
+        this.zapShootTimer -= delta / 8;
         if (this.zapShootTimer <= 0) {
           if (this.enemyBullets.getLength() > 100) {
             this.enemyBullets.getChildren()[0].destroy();
@@ -334,7 +337,6 @@ export default class Level2 extends Phaser.Scene {
             130
           );
           this.zapShootDelay = this.zapdosHP / 100;
-          console.log(this.zapShootDelay);
           this.zapShootTimer = this.zapShootDelay;
         }
       }
@@ -342,7 +344,7 @@ export default class Level2 extends Phaser.Scene {
     if (this.spawning) {
       // Spawn enemies
       if (this.power > 0) {
-        this.enemySpawnTimer--;
+        this.enemySpawnTimer -= delta / 8;
       }
     }
     if (this.spawning && this.enemySpawnTimer <= 0) {
@@ -391,7 +393,9 @@ export default class Level2 extends Phaser.Scene {
     this.player.setVelocity(moveX * this.moveSpeed, moveY * this.moveSpeed);
 
     if (Math.abs(moveX) + Math.abs(moveY) != 0 && !this.stepSound.isPlaying) {
-      this.stepSound.play("stepSound");
+      this.stepSound.play("stepSound", {
+        rate: 0.9 + Math.random() * 0.2,
+      });
     }
 
     if (!this.spawning && !this.phase2 && (moveX || moveY)) {
@@ -409,7 +413,7 @@ export default class Level2 extends Phaser.Scene {
     if (this.direction) {
       this.player.play(this.direction, true);
     }
-    this.shootTimer++;
+    this.shootTimer += delta / 8;
     if (this.power > 0 && this.shootTimer > this.shootDelay) {
       this.shootTimer = 0;
       this.sound.play("zap");

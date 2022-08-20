@@ -26,20 +26,20 @@ export default class Level1 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("player", "./assets/sylveon.png");
-    this.load.image("star", "./assets/star.png");
-    this.load.image("envelope", "./assets/envelope.png");
-    this.load.image("shoes", "./assets/shoes.png");
-    this.load.image("ground", "./assets/ground.png");
+    this.load.image("player", "./assets/Level1/sylveon.png");
+    this.load.image("star", "./assets/Level1/star.png");
+    this.load.image("envelope", "./assets/Level1/envelope.png");
+    this.load.image("shoes", "./assets/Level1/shoes.png");
+    this.load.image("ground", "./assets/Level1/ground.png");
 
-    this.load.audio("jump", "./assets/jump.mp3");
-    this.load.audio("sylveon", "./assets/sylveon.mp3");
-    this.load.audio("starMusic", "./assets/starmusic.mp3");
+    this.load.audio("jump", "./assets/Level1/jump.mp3");
+    this.load.audio("sylveon", "./assets/Level1/sylveon.mp3");
+    this.load.audio("starMusic", "./assets/Level1/starmusic.mp3");
     this.load.audio("victorySound", "./assets/victory.mp3");
-    this.load.audio("skid", "./assets/skid.wav");
-    this.load.audio("powerup", "./assets/powerup.mp3");
-    this.load.audio("whoosh", "./assets/whoosh.mp3");
-    this.load.audio("thud", "./assets/thud.wav");
+    this.load.audio("skid", "./assets/Level1/skid.wav");
+    this.load.audio("powerup", "./assets/Level1/powerup.mp3");
+    this.load.audio("whoosh", "./assets/Level1/whoosh.mp3");
+    this.load.audio("thud", "./assets/Level1/thud.wav");
   }
 
   create() {
@@ -252,6 +252,7 @@ export default class Level1 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 13500, this.cameras.main.height);
     this.cameras.main.setDeadzone(100);
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.setBackgroundColor(0x33a5e7);
 
     this.text = this.add
       .text(10, 10, this.player.x.toString())

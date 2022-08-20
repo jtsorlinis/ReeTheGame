@@ -8,6 +8,8 @@ export default class Menu extends Phaser.Scene {
   preload() {}
 
   create() {
+    this.cameras.main.setBackgroundColor(0x33a5e7);
+
     const centerX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     this.add
       .text(centerX, 200, "Ree Ree\nThe Game", {
