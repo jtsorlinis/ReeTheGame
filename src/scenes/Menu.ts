@@ -18,6 +18,12 @@ export default class Menu extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
+    // Secret button
+    const secretStart = this.add.rectangle(340, 183, 25, 30).setInteractive();
+    secretStart.on("pointerup", () => {
+      this.scene.start("Level1");
+    });
+
     const startButton = this.add.rectangle(centerX, 400, 200, 50, 0xf4a261);
     this.add
       .text(centerX, 400, "Start", {
@@ -34,7 +40,7 @@ export default class Menu extends Phaser.Scene {
       startButton.setFillStyle(0xf4a261);
     });
     startButton.on("pointerup", () => {
-      this.scene.start("Level1");
+      this.scene.start("Level3");
     });
   }
 }
